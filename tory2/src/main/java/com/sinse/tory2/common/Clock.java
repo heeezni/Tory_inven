@@ -24,6 +24,6 @@ public class Clock {
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter formatter =DateTimeFormatter.ofPattern("yyyy-MM-dd(E) HH:mm:ss");
         String formattedTime = now.format(formatter);
-        inventoryUI.la_timeLabel.setText(formattedTime);
+        inventoryUI.getLa_timeLabel().setText(formattedTime);
     }
 }
