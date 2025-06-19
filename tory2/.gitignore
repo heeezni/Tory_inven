@@ -1,0 +1,20 @@
+# === Java 컴파일 산출물 ===
+*.class
+/target/
+
+# === Eclipse/STS 설정 파일 ===
+.classpath
+.project
+.settings/
+
+# === OS 관련 숨김 파일 ===
+.DS_Store
+Thumbs.db
+
+# === 기타 IDE (IntelliJ 등) ===
+.idea/
+*.iml
+
+# === 환경 파일, 로그 ===
+*.log
+.env
