@@ -7,6 +7,7 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -17,22 +18,23 @@ import com.sinse.tory2.common.Clock;
 // 왼쪽 영역 UI
 public class InventoryUI extends JPanel {
 
-	JLabel la_logo, la_title; // 로고, 제목 라벨
-	JLabel la_timeLabel; // 현재 시간 표시 라벨
+	JPanel p_top;
+	JPanel p_clockBar; //(좌: 로고, 우: 현재 시간) 부착할 패널
+	JPanel p_titleBar; // 제목 + 필터 부착할 패널
+	JLabel la_logo, la_timeLabel, la_title; // 로고, 현재 시간 표시 라벨, 제목 라벨
 	JComboBox<String> cb_filter; // 정렬 필터 콤보박스
+	
+	JPanel p_content; //격자와 카테고리 두 요소를 수직으로 정렬하기 위한 패널
+	JPanel p_gridWrapper; // 격자 패널의 중앙정렬을 위한 패널
 	JPanel p_grid; // 10x10 재고 격자 패널
 	JLabel[] categories; // 하단 카테고리 라벨 배열
 	Color[] columnColors; // 컬럼별 색상 고정 배열
-	JPanel p_clockBar;
-	JPanel p_titleBar;
-	JPanel p_top;
-	JPanel p_gridWrapper;
+	
 	JPanel p_footer;
 
 	public InventoryUI() {
 		// 전체 패널을 BorderLayout으로 설정 (NORTH / CENTER / SOUTH 구조)
 		setLayout(new BorderLayout());
-		setPreferredSize(new Dimension(960, 1080));
 		setBackground(Color.WHITE);
 
 		// 컬럼별 고정 색상 (column index별로 고정 색상 부여)
@@ -74,15 +76,19 @@ public class InventoryUI extends JPanel {
 		add(p_top, BorderLayout.NORTH);
 
 		/* ---------- 중앙 격자 영역 (CENTER) ---------- */
-
+		
+		//격자와 카테고리 두 요소를 수직으로 정렬하기 위한 패널
+		p_content = new JPanel();
+		p_content.setLayout(new BoxLayout(p_content, BoxLayout.Y_AXIS));
+		p_content.setBorder(BorderFactory.createEmptyBorder(0,0,0,0)); // 상,하,좌,우 여백 제거
 		// 가운데 정렬용 셀 격자를 감싸는 래퍼
 		p_gridWrapper = new JPanel(new FlowLayout(FlowLayout.CENTER));
+		p_gridWrapper.setPreferredSize(new Dimension(960,400));
 
 		p_grid = new JPanel(new GridLayout(10, 10, 3, 3)); // 10X10격자, 셀 사이간격 3px
-		p_grid.setPreferredSize(new Dimension(600, 500));
 		p_grid.setBackground(Color.WHITE);
 		p_grid.setPreferredSize(new Dimension(600, 600)); // 격자 전체 크기
-
+		
 		// 셀 생성: row, col 반복 돌면서 색상 설정
 		for (int row = 0; row < 10; row++) {
 			for (int col = 0; col < 10; col++) {
@@ -91,7 +97,6 @@ public class InventoryUI extends JPanel {
 			}
 		}
 		p_gridWrapper.add(p_grid);
-		add(p_gridWrapper, BorderLayout.CENTER);
 
 		/* ---------- 하단 카테고리 영역 (SOUTH) ---------- */
 
@@ -103,12 +108,15 @@ public class InventoryUI extends JPanel {
 			categories[i] = new JLabel(names[i], JLabel.CENTER); // 텍스트 중앙 정렬
 			categories[i].setForeground(Color.DARK_GRAY); // 글자색
 			categories[i].setFont(new Font("Malgun Gothic", Font.PLAIN, 14));
+			categories[i].setBorder(BorderFactory.createEmptyBorder(0,0,0,0)); // 라벨 여백
 			p_footer.add(categories[i]);
 		}
 		p_footer.setPreferredSize(new Dimension(960, 40));
 		p_footer.setBackground(Color.LIGHT_GRAY); // 임시 확인용
 
-		add(p_footer, BorderLayout.SOUTH);
+		p_content.add(p_gridWrapper); // 격자
+		p_content.add(p_footer); // 카테고리 라벨
+		add(p_content);
 	}
 
 	// Clock이 la_timeLabel을 업데이트하기 위해 필요

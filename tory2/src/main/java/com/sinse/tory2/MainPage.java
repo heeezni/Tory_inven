@@ -15,21 +15,26 @@ public class MainPage extends JFrame{
 	
 	public MainPage() {
 		
+		// 왼쪽 패널 (InventoryUI)
 		inventoryUI = new InventoryUI();
 		inventoryUI.setPreferredSize(new Dimension(960,1080));
+		add(inventoryUI, BorderLayout.WEST);
 		
 		// 임시로 오른쪽 패널 삽입
 		JPanel rightPanel = new JPanel();
 		rightPanel.setPreferredSize(new Dimension(960,1080));
 		rightPanel.setBackground(Color.YELLOW);
 		add(rightPanel, BorderLayout.EAST);
-		
-		add(inventoryUI, BorderLayout.WEST);
+		//1:1 맞추기 위한 빈 센터 패널
+		add(new JPanel(), BorderLayout.CENTER);
+	
 		
 		setTitle("음성기반 창고관리 Tory");
 		setSize(1920,1080);
 		setBackground(Color.PINK);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
+	
+		
 		setVisible(true);
 		
 	}
