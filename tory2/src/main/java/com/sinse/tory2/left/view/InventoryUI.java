@@ -44,11 +44,14 @@ public class InventoryUI extends JPanel {
 		setBackground(Color.WHITE);
 
 		/* ---------- 로고 + 시계 (p_clockBar) ---------- */
+		
+		// 시계 + 로고를 담을 상단 패널 (고정 높이 60px)
 		p_clockBar = new JPanel(new BorderLayout());
-		p_clockBar.setPreferredSize(new Dimension(960, 100));
-		p_clockBar.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 30)); // 여백 설정
+		p_clockBar.setPreferredSize(new Dimension(960, 60));
+		p_clockBar.setMaximumSize(new Dimension(960, 60));
+		p_clockBar.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 30)); // 우측 여백만 설정
 
-		// 🔹 로고 패널: 아래쪽에 정렬
+		// 로고 이미지 설정 (높이 100px로 스케일 조정)
 		ImageIcon logo = new ImageIcon("src/main/resources/Tory서비스 로고.png");
 		Image scaledImage = logo.getImage().getScaledInstance(-1, 100, Image.SCALE_SMOOTH);
 		la_logo = new JLabel(new ImageIcon(scaledImage));
@@ -57,18 +60,18 @@ public class InventoryUI extends JPanel {
 		JPanel logoPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
 		logoPanel.add(la_logo);
 
-		// 🔹 시계: 시각적으로 위쪽으로 띄워야 로고와 높이 맞음
+		// 시계 라벨 설정
 		la_timeLabel = new JLabel();
 		la_timeLabel.setFont(new Font("Gulim", Font.BOLD, 18));
-		new Clock(this);
+		new Clock(this); // 시계 갱신용 객체 (1초마다 라벨 업데이트)
 
-		JPanel timePanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 20)); 
+		// 시계 패널 (오른쪽에 붙이고 아래 여백 15px로 살짝 띄움)
+		JPanel timePanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 15)); 
 		timePanel.add(la_timeLabel);
 
-		// 🔹 배치
+		// 상단바에 로고와 시계 배치
 		p_clockBar.add(logoPanel, BorderLayout.WEST);
 		p_clockBar.add(timePanel, BorderLayout.EAST);
-
 
 		/* ---------- 제목 + 정렬 필터 (p_titleBar) ---------- */
 		p_titleBar = new JPanel(new BorderLayout());
